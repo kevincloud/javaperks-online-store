@@ -15,7 +15,8 @@
 ini_set('display_errors', 'On');
 ini_set('display_startup_errors', 'On');
 error_reporting(E_ALL);
-$region = "us-east-1";
+$region = getenv("REGION");
+$assetbucket = getenv("S3_BUCKET");
 
 // ***INLINESQL***
 // include_once("plugins/ezsql/ez_sql_core.php");
@@ -37,8 +38,8 @@ include_once("classes/Order.php");
 include_once("classes/Invoice.php");
 include_once("classes/ShoppingCart.php");
 
-if(file_exists('config.php'))
-    include_once("config.php");
+// if(file_exists('config.php'))
+//     include_once("config.php");
 
 // Set the default time zone
 date_default_timezone_set('America/New_York');
@@ -77,6 +78,12 @@ $orderapi = "http://order-api.service.".$region.".consul:5826";
 //////////////////////////////////////////////////////////////////////////////////
 
 include_once("functions.php");
+
+if ($region == "")
+    $region = "us-east-1";
+
+if ($assetbucket == "")
+    $assetbucket = "https://s3.amazonaws.com/hc-workshop-2.0-assets/";
 
 
 
