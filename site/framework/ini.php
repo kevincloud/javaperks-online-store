@@ -16,7 +16,7 @@ ini_set('display_errors', 'On');
 ini_set('display_startup_errors', 'On');
 error_reporting(E_ALL);
 $region = getenv("REGION");
-$assetbucket = getenv("S3_BUCKET");
+$s3bucket = getenv("S3_BUCKET");
 
 // ***INLINESQL***
 // include_once("plugins/ezsql/ez_sql_core.php");
@@ -82,9 +82,10 @@ include_once("functions.php");
 if ($region == "")
     $region = "us-east-1";
 
-if ($assetbucket == "")
-    $assetbucket = "https://s3.amazonaws.com/hc-workshop-2.0-assets/";
+if ($s3bucket == "")
+    $s3bucket = "hc-workshop-2.0-assets";
 
+$assetbucket = "https://s3.amazonaws.com/".$s3bucket."/";
 
 
 
