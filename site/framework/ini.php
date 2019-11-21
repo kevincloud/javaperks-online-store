@@ -66,12 +66,12 @@ ob_implicit_flush(false);
 // API INITIALIZATION
 //////////////////////////////////////////////////////////////////////////////////
 
-$authapi = "http://auth-api.service.".$region.".consul:5825";
-$productapi = "http://product-api.service.".$region.".consul:5821";
-$customerapi = "http://customer-api.service.".$region.".consul:5822";
-$cartapi = "http://cart-api.service.".$region.".consul:5823";
-$vaulturl = "http://vault-main.service.".$region.".consul:8200";
-$orderapi = "http://order-api.service.".$region.".consul:5826";
+$authapi = getenv("JPAPI_AUTH_HOST");
+$productapi = getenv("JPAPI_PROD_HOST");
+$customerapi = getenv("JPAPI_CUST_HOST");
+$cartapi = getenv("JPAPI_CART_HOST");
+$orderapi = getenv("JPAPI_ORDR_HOST");
+$vaulturl = getenv("VAULT_ADDR");
 
 //////////////////////////////////////////////////////////////////////////////////
 // UNIVERSAL FUNCTIONS INITIALIZATION
@@ -84,6 +84,24 @@ if ($region == "")
 
 if ($s3bucket == "")
     $s3bucket = "hc-workshop-2.0-assets";
+
+if ($authapi == "")
+    $authapi = "http://auth-api.service.".$region.".consul:5825";
+
+if ($productapi == "")
+    $productapi = "http://product-api.service.".$region.".consul:5821";
+
+if ($customerapi == "")
+    $customerapi = "http://customer-api.service.".$region.".consul:5822";
+
+if ($cartapi == "")
+    $cartapi = "http://cart-api.service.".$region.".consul:5823";
+
+if ($vaulturl == "")
+    $vaulturl = "http://vault-main.service.".$region.".consul:8200";
+
+if ($orderapi == "")
+    $orderapi = "http://order-api.service.".$region.".consul:5826";
 
 $assetbucket = "https://s3.amazonaws.com/".$s3bucket."/";
 
