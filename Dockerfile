@@ -5,8 +5,8 @@ LABEL Kevin Cochran "kcochran@hashicorp.com"
 RUN echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y unzip jq python3 python3-pip php libapache2-mod-php php-fpm php-common php-curl
+RUN apt-get update
+RUN apt-get install -y unzip curl jq python3 python3-pip php libapache2-mod-php php-fpm php-common php-curl
 RUN pip3 install awscli botocore boto3 flask flask-cors
 RUN rm -rf /var/www/html/*
 RUN mkdir -p /var/run/php
