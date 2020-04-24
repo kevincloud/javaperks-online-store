@@ -84,7 +84,7 @@ if ($k8s) {
 
     $result = $r->Post(
         $vaulturl."/v1/auth/kubernetes/login", 
-        "{\"jwt\": \"$KUBE_TOKEN\", \"role\": \"cust-api\"}");
+        "{\"jwt\": \"".$kube_token."\", \"role\": \"cust-api\"}");
     $vaulttoken = $result->auth->client_token;
 }
 
