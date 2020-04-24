@@ -23,9 +23,10 @@ class Utilities
 	public static function GetVaultSecret($secretpath)
 	{
 		global $vaulturl;
+		global $vaulttoken;
 		$r = new RestRunner();
 
-		$r->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$r->SetHeader("X-Vault-Token", $vaulttoken);
 		$result = $r->Get($vaulturl."/".$secretpath);
 		return $result->data->data;
 	}
@@ -33,10 +34,10 @@ class Utilities
 	public static function EncryptValue($transitkey, $plaintext)
 	{
 		global $vaulturl;
+		global $vaulttoken;
 		$r = new RestRunner();
 
-
-		$r->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$r->SetHeader("X-Vault-Token", $vaulttoken);
 		$result = $r->Post(
 			$vaulturl."/v1/transit/encrypt/".$transitkey, 
 			"{ \"plaintext\": \"".base64_encode($plaintext)."\" }");
@@ -46,9 +47,10 @@ class Utilities
 	public static function DecryptValue($transitkey, $ciphertext)
 	{
 		global $vaulturl;
+		global $vaulttoken;
 		$r = new RestRunner();
 
-		$r->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$r->SetHeader("X-Vault-Token", $vaulttoken);
 		$result = $r->Post(
 			$vaulturl."/v1/transit/decrypt/".$transitkey, 
 			"{ \"ciphertext\": \"".$ciphertext."\" }");

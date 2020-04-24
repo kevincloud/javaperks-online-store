@@ -904,6 +904,7 @@ class Account
 	
 	public function SaveEmail($email)
 	{
+		global $vaulttoken;
 		$oldemail = Utilities::DecryptValue("account", $this->Email);
 		$newemail = Utilities::DecryptValue("account", $email);
 
@@ -917,20 +918,20 @@ class Account
 		// get the password
 		$request = $this->VaultUrl."/v1/usercreds/data/".$oldemail;
 		$rr = new RestRunner();
-		$rr->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$rr->SetHeader("X-Vault-Token", $vaulttoken);
 		$retval = $rr->Get($request);
 		$password = $retval->data->data->password;
 
 		// create the new record
 		$request = $this->VaultUrl."/v1/usercreds/data/".$newemail;
 		$rr = new RestRunner();
-		$rr->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$rr->SetHeader("X-Vault-Token", $vaulttoken);
 		$retval = $rr->Post($request, "{\"data\": { \"username\": \"".$newemail."\", \"password\": \"".$password."\", \"customerno\": \"".$this->CustomerID."\" } }");
 
 		// destroy the previous one
 		$request = $this->VaultUrl."/v1/usercreds/metadata/".$oldemail;
 		$rr = new RestRunner();
-		$rr->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$rr->SetHeader("X-Vault-Token", $vaulttoken);
 		$retval = $rr->Delete($request);
 
 		$this->Email = $email;
@@ -938,11 +939,12 @@ class Account
 	
 	public function SavePassword($pass)
 	{
+		global $vaulttoken;
 		$email = Utilities::DecryptValue("account", $this->Email);
 
 		$request = $this->VaultUrl."/v1/usercreds/data/".$email;
 		$rr = new RestRunner();
-		$rr->SetHeader("X-Vault-Token", getenv("VAULT_TOKEN"));
+		$rr->SetHeader("X-Vault-Token", $vaulttoken);
 		$retval = $rr->Post($request, "{\"data\": { \"username\": \"".$email."\", \"password\": \"".$pass."\", \"customerno\": \"".$this->CustomerID."\" } }");
 	}
 	

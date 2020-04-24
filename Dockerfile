@@ -21,7 +21,9 @@ RUN sed -i 's/^\(display_errors\s*=\s*\).*$/\1On/' /etc/php/7.2/fpm/php.ini
 
 RUN /root/config.sh
 
-COPY bootstrap.sh /root/bootstrap.sh
-RUN chmod +x /root/bootstrap.sh
+# COPY bootstrap.sh /root/bootstrap.sh
+# RUN chmod +x /root/bootstrap.sh
 
-ENTRYPOINT ["/root/bootstrap.sh"]
+# ENTRYPOINT ["/root/bootstrap.sh"]
+
+CMD apachectl -D FOREGROUND

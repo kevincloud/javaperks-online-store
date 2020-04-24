@@ -72,6 +72,21 @@ $customerapi = getenv("JPAPI_CUST_HOST");
 $cartapi = getenv("JPAPI_CART_HOST");
 $orderapi = getenv("JPAPI_ORDR_HOST");
 $vaulturl = getenv("VAULT_ADDR");
+$vaulttoken = getenv("VAULT_TOKEN");
+
+$k8s = false;
+if (!isBlank(getenv("KUBERNETES_SERVICE_HOST")))
+    $k8s = true;
+
+if ($k8s) {
+    $kube_token = file_get_contents("/var/run/secrets/kubernetes.io/serviceaccount/token");
+    $r = new RestRunner();
+
+    $result = $r->Post(
+        $vaulturl."/v1/auth/kubernetes/login", 
+        "{\"jwt\": \"$KUBE_TOKEN\", \"role\": \"cust-api\"}");
+    $vaulttoken = $result->auth->client_token;
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // UNIVERSAL FUNCTIONS INITIALIZATION
