@@ -24,4 +24,4 @@ RUN /root/config.sh
 COPY bootstrap.sh /root/bootstrap.sh
 RUN chmod +x /root/bootstrap.sh
 
-ENTRYPOINT ["/root/bootstrap.sh"]
+ENTRYPOINT [". /root/bootstrap.sh"]
