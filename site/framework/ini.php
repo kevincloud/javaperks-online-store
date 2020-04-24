@@ -75,7 +75,7 @@ $vaulturl = getenv("VAULT_ADDR");
 $vaulttoken = getenv("VAULT_TOKEN");
 
 $k8s = false;
-if (!isBlank(getenv("KUBERNETES_SERVICE_HOST")))
+if (getenv("KUBERNETES_SERVICE_HOST") != "")
     $k8s = true;
 
 if ($k8s) {
