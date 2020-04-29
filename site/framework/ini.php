@@ -78,7 +78,7 @@ $k8s = false;
 if (getenv("KUBERNETES_SERVICE_HOST") != "")
     $k8s = true;
 
-if ($k8s) {
+if ($k8s && !$vaulttoken) {
     $kube_token = file_get_contents("/var/run/secrets/kubernetes.io/serviceaccount/token");
     $r = new RestRunner();
 
@@ -86,6 +86,7 @@ if ($k8s) {
         $vaulturl."/v1/auth/kubernetes/login", 
         "{\"jwt\": \"".$kube_token."\", \"role\": \"cust-api\"}");
     $vaulttoken = $result->auth->client_token;
+    putenv("VAULT_TOKEN=$vaulttoken");
 }
 
 //////////////////////////////////////////////////////////////////////////////////
